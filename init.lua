@@ -851,8 +851,7 @@ require('lazy').setup({
     config = function()
       local alpha = require 'alpha'
       local theme = require 'alpha.themes.startify'
-      theme.section.header.val = {                
-            never mind
+      
       alpha.setup(theme.config)
     end,
   },
