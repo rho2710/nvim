@@ -852,12 +852,7 @@ require('lazy').setup({
       local alpha = require 'alpha'
       local theme = require 'alpha.themes.startify'
       theme.section.header.val = {                
-               (_)              | |   
-          _ __  _  ___ ___ _   _| |__  
-         | '_  | | __  _   | | | '_  | 
-         | | | | | (_|  __  |_| | | | |
-         |_| |_|_| ___ ___| __,_|_| |_|     
-            }
+            never mind
       alpha.setup(theme.config)
     end,
   },
