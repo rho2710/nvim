@@ -116,7 +116,7 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   end,
 })
 
-vim.api.nvim_set_keymap('n', 'K', ':Neotree toggle<CR>', { noremap = true, silent = true })
+-- vim.api.nvim_set_keymap('n', 'K', ':Neotree toggle<CR>', { noremap = true, silent = true })
 
 -- [[ Install `lazy.nvim` plugin manager ]]
 --    See `:help lazy.nvim.txt` or https://github.com/folke/lazy.nvim for more info
