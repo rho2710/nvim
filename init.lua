@@ -37,29 +37,6 @@ vim.opt.undofile = true
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
 
--- bg
-vim.opt.termguicolors = true
-vim.opt.background = "dark"
-
-local function set_background_image()
-  local bg_image = vim.fn.expand("~/.config/nvim/background.png")
-  if vim.fn.filereadable(bg_image) == 1 then
-    vim.cmd("highlight Normal guibg=None")
-    vim.cmd("highlight LineNr guibg=None")
-    vim.cmd("highlight SignColumn guibg=None")
-    vim.cmd("highlight EndOfBuffer guibg=None")
-    vim.cmd("autocmd BufEnter * ++nested setlocal background=dark | highlight Normal guibg=None")
-    vim.cmd("silent !xrdb -merge ~/.config/nvim/Xresources")
-    vim.cmd("silent !feh --bg-scale " .. bg_image .. " &")
-  end
-end
-
-vim.api.nvim_create_autocmd("VimEnter", {
-  callback = function()
-    set_background_image()
-  end,
-})
-
 -- Keep signcolumn on by default
 vim.opt.signcolumn = 'yes'
 
