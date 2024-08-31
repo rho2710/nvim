@@ -724,28 +724,21 @@ require('lazy').setup({
       }
     end,
   },
-  { 
+
+  { -- You can easily change to a different colorscheme.
+    -- Change the name of the colorscheme plugin below, and then
+    -- change the command in the config to whatever the name of that colorscheme is.
+    --
+    -- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
     'folke/tokyonight.nvim',
-    priority = 1000,
+    priority = 1000, -- Make sure to load this before all the other start plugins.
     init = function()
-      require('tokyonight').setup({
-        style = 'night',
-        transparent = true,
-        styles = {
-          sidebars = 'transparent',
-          floats = 'transparent',
-        },
-        on_colors = function(colors)
-          colors.bg = colors.bg and colors.bg:gsub('^#', ''):lower()
-          colors.bg = string.format('#%02x%02x%02x%02x', 
-            tonumber(colors.bg:sub(1,2), 16),
-            tonumber(colors.bg:sub(3,4), 16),
-            tonumber(colors.bg:sub(5,6), 16),
-            math.floor(0.4 * 255)
-          )
-        end,
-      })
-      vim.cmd.colorscheme 'tokyonight'
+      -- Load the colorscheme here.
+      -- Like many other themes, this one has different styles, and you could load
+      -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
+     vim.cmd.colorscheme 'tokyonight-night'
+
+      -- You can configure highlights by doing something like:
       vim.cmd.hi 'Comment gui=none'
     end,
   },
