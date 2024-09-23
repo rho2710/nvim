@@ -883,7 +883,7 @@ require('lazy').setup({
     -- VimTeX configuration goes here, e.g.
     vim.g.vimtex_view_method = "zathura"
   end
-  },
+},
   {
     'yacineMTB/dingllm.nvim',
     dependencies = { 'nvim-lua/plenary.nvim' },
