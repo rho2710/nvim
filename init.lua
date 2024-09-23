@@ -875,18 +875,17 @@ require('lazy').setup({
       { "<leader>rm", function() require('nabla').popup() end, mode = "n", desc = "nabla popup" }
     }
   },
-  {
+ {
   "lervag/vimtex",
   lazy = false,     -- we don't want to lazy load VimTeX
   -- tag = "v2.15", -- uncomment to pin to a specific release
   init = function()
     -- VimTeX configuration goes here, e.g.
-    vim.g.vimtex_view_method = "zathura"
-    vim.g.vimtex_compiler_method = 'latexrun'
-    vim.g.maplocalleader = ","
-    vim.cmd('filetype plugin indent on')
-    vim.cmd('syntax enable')
-  end
+    vim.g.vimtex_view_method = 'zathura'
+      vim.g.vimtex_compiler_method = 'latexrun'
+      vim.g.maplocalleader = ","
+      vim.cmd('filetype plugin indent on')
+      vim.cmd('syntax enable')  end
 },
   {
     'yacineMTB/dingllm.nvim',
