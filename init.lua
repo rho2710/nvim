@@ -102,9 +102,6 @@ vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right win
 vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 
-package.path = package.path .. ";" .. vim.fn.expand("$HOME") .. "/.luarocks/share/lua/5.1/?/init.lua"
-package.path = package.path .. ";" .. vim.fn.expand("$HOME") .. "/.luarocks/share/lua/5.1/?.lua"
-
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
 
@@ -118,8 +115,6 @@ vim.api.nvim_create_autocmd('TextYankPost', {
     vim.highlight.on_yank()
   end,
 })
-
--- vim.api.nvim_set_keymap('n', 'K', ':Neotree toggle<CR>', { noremap = true, silent = true })
 
 -- [[ Install `lazy.nvim` plugin manager ]]
 --    See `:help lazy.nvim.txt` or https://github.com/folke/lazy.nvim for more info
@@ -229,6 +224,31 @@ require('lazy').setup({
   -- after the plugin has been loaded:
   --  config = function() ... end
 
+  { -- Useful plugin to show you pending keybinds.
+    'folke/which-key.nvim',
+    event = 'VimEnter', -- Sets the loading event to 'VimEnter'
+    config = function() -- This is the function that runs, AFTER loading
+    
+      require("which-key").setup({
+        ignore_missing = true,
+      })
+     
+      -- Document existing key chains
+      require('which-key').register {
+        ['<leader>c'] = { name = '[C]ode', _ = 'which_key_ignore' },
+        ['<leader>d'] = { name = '[D]ocument', _ = 'which_key_ignore' },
+        ['<leader>r'] = { name = '[R]ename', _ = 'which_key_ignore' },
+        ['<leader>s'] = { name = '[S]earch', _ = 'which_key_ignore' },
+        ['<leader>w'] = { name = '[W]orkspace', _ = 'which_key_ignore' },
+        ['<leader>t'] = { name = '[T]oggle', _ = 'which_key_ignore' },
+        ['<leader>h'] = { name = 'Git [H]unk', _ = 'which_key_ignore' },
+      }
+      -- visual mode
+      require('which-key').register({
+        ['<leader>h'] = { 'Git [H]unk' },
+      }, { mode = 'v' })
+    end,
+  },
 
   -- NOTE: Plugins can specify dependencies.
   --
@@ -563,8 +583,12 @@ require('lazy').setup({
       vim.list_extend(ensure_installed, {
         'stylua', -- Used to format Lua code
       })
-      require('mason-tool-installer').setup { ensure_installed = ensure_installed }
-
+      require("mason-tool-installer").setup({
+        ensure_installed = {
+          "typescript-language-server",
+          -- other tools...
+        }
+      })
       require('mason-lspconfig').setup {
         handlers = {
           function(server_name)
@@ -739,7 +763,7 @@ require('lazy').setup({
       -- Load the colorscheme here.
       -- Like many other themes, this one has different styles, and you could load
       -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
-     vim.cmd.colorscheme 'tokyonight-night'
+      vim.cmd.colorscheme 'tokyonight-night'
 
       -- You can configure highlights by doing something like:
       vim.cmd.hi 'Comment gui=none'
@@ -854,10 +878,35 @@ require('lazy').setup({
     config = function()
       local alpha = require 'alpha'
       local theme = require 'alpha.themes.startify'
-      
+      theme.section.header.val = {
+        [[#### nah, i'd win #### ]],
+        [[⠀⠀⠀⠀⠀⠀⠀⢀⠀⠔⡀⠀⢀⠞⢰⠂⠀⠀⠀⠀⠀⠀⠀]],
+        [[⠀⠀⠀⠀⠀⠀⠀⢸⠘⢰⡃⠔⠩⠤⠦⠤⢀⡀⠀⠀⠀⠀⠀]],
+        [[⠀⠀⠀⢀⠄⢒⠒⠺⠆⠈⠀⠀⢐⣂⠤⠄⡀⠯⠕⣒⣒⡀⠀]],
+        [[⠀⠀⢐⡡⠔⠁⠆⠀⠀⠀⠀⠀⢀⠠⠙⢆⠀⠈⢁⠋⠥⣀⣀]],
+        [[⠈⠉⠀⣰⠀⠀⠀⠀⡀⠀⢰⣆⢠⠠⢡⡀⢂⣗⣖⢝⡎⠉⠀]],
+        [[⢠⡴⠛⡇⠀⠐⠀⡄⣡⢇⠸⢸⢸⡇⠂⡝⠌⢷⢫⢮⡜⡀⠀]],
+        [[⠀⠀⢰⣜⠘⡀⢡⠰⠳⣎⢂⣟⡎⠘⣬⡕⣈⣼⠢⠹⡟⠇⠀]],
+        [[⠀⠠⢋⢿⢳⢼⣄⣆⣦⣱⣿⣿⣿⣷⠬⣿⣿⣿⣿⠑⠵⠀⠀]],
+        [[⠀⠀⠀⡜⢩⣯⢝⡀⠁⠀⠙⠛⠛⠃⠀⠈⠛⠛⡿⠀⠀⠀⠀]],
+        [[⠀⠀⠀⠀⠀⣿⠢⡁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡇⠀⠀⠀⠀]],
+        [[⠀⠀⠀⠀⢀⣀⡇⠀⠑⠀⠀⠀⠀⠐⢄⠄⢀⡼⠃⠀⠀⠀⠀]],
+        [[⠀⠀⠀⠀⢸⣿⣷⣤⣀⠈⠲⡤⣀⣀⠀⡰⠋⠀⠀⠀⠀⠀⠀]],
+        [[⠀⠀⠀⠀⣼⣿⣿⣿⣿⣿⣶⣤⣙⣷⣅⡀⠀⠀⠀⠀⠀⠀⠀]],
+        [[⠀⠀⢀⣾⣿⣿⣿⣿⣻⢿⣿⣿⣿⣿⣿⡿⠀⠀⠀⠀⠀⠀⠀]],
+        [[⠀⡠⠟⠁⠙⠟⠛⠛⢿⣿⣾⣿⣿⣿⣿⣧⡀⠀⠀⠀⠀⠀⠀]],
+      }
       alpha.setup(theme.config)
     end,
   },
+  --[[
+  {
+      "3rd/image.nvim",
+      config = function()
+        require('image').setup()
+      end
+  },
+  ]]--
   {
     "yacineMTB/pyrepl.nvim",
     dependencies = { 'nvim-lua/plenary.nvim' },
@@ -870,75 +919,20 @@ require('lazy').setup({
       { "<leader>p", function() require('pyrepl').run_selected_lines() end, mode = "v", desc = "Run selected lines" }
     }
   },
-  {
-    "jbyuki/nabla.nvim",
-    config = function()
-    end,
-    keys = {
-      { "<leader>rm", function() require('nabla').popup() end, mode = "n", desc = "nabla popup" }
-    }
-  },
-  {
-    'MeanderingProgrammer/render-markdown.nvim',
-    opts = {},
-    dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.nvim' }, -- if you use the mini.nvim suite
-    -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.icons' }, -- if you use standalone mini plugins
-    -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' }, -- if you prefer nvim-web-devicons
-  },
- {
-  "3rd/image.nvim",
-  opts = {
-    backend = "kitty",
-    integrations = {
-      markdown = {
-        enabled = true,
-        clear_in_insert_mode = false,
-        download_remote_images = true,
-        only_render_image_at_cursor = false,
-        filetypes = { "markdown", "vimwiki" },
-      },
-      neorg = {
-        enabled = true,
-        clear_in_insert_mode = false,
-        download_remote_images = true,
-        only_render_image_at_cursor = false,
-        filetypes = { "norg" },
-      },
-      html = {
-        enabled = false,
-      },
-      css = {
-        enabled = false,
-      },
-    },
-    max_width = 800,  -- Set a fixed maximum width in pixels
-    max_height = 600,  -- Set a fixed maximum height in pixels
-    max_width_window_percentage = nil,
-    max_height_window_percentage = nil,
-    window_overlap_clear_enabled = true,  -- Enable clearing of overlapped window content
-    window_overlap_clear_ft_ignore = { "cmp_menu", "cmp_docs", "" },
-    editor_only_render_when_focused = true,  -- Only render images when the editor is focused
-    tmux_show_only_in_active_window = true,  -- Only show images in the active tmux window
-    hijack_file_patterns = { "*.png", "*.jpg", "*.jpeg", "*.gif", "*.webp", "*.avif" },
-    render_method = "kitty",  -- Use kitty's native image rendering
-    max_fps = 30,  -- Limit the refresh rate to reduce glitchiness
-    use_dither = true,  -- Enable dithering for smoother image rendering
-    scale_small_images = false,  -- Prevent small images from being scaled up
-  }
-  }, 
+
   {
     'yacineMTB/dingllm.nvim',
     dependencies = { 'nvim-lua/plenary.nvim' },
     config = function()
       local system_prompt =
-        'You should improve my text as i tell you, always write in lowercase, try to keep it short and concise in your rewrites or description. use simple terms and grammar. Do not provide any backticks that surround the code. Never ever output backticks like this ```. Any comment that is asking you for something should be removed after you satisfy them. Other comments should left alone. Do not output backticks'
+        'You should replace the code that you are sent, only following the comments. Do not talk at all. Only output valid code. Do not provide any backticks that surround the code. Never ever output backticks like this ```. Any comment that is asking you for something should be removed after you satisfy them. Other comments should left alone. Do not output backticks'
       local helpful_prompt = 'You are a helpful assistant. What I have sent are my notes so far. You are very curt, yet helpful.'
       local dingllm = require 'dingllm'
 
       local function groq_replace()
         dingllm.invoke_llm_and_stream_into_editor({
           url = 'https://api.groq.com/openai/v1/chat/completions',
-          model = 'llama-3.1-70b-versatile',
+          model = 'llama3-70b-8192',
           api_key_name = 'GROQ_API_KEY',
           system_prompt = system_prompt,
           replace = true,
