@@ -102,6 +102,9 @@ vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right win
 vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 
+package.path = package.path .. ";" .. vim.fn.expand("$HOME") .. "/.luarocks/share/lua/5.1/?/init.lua"
+package.path = package.path .. ";" .. vim.fn.expand("$HOME") .. "/.luarocks/share/lua/5.1/?.lua"
+
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
 
@@ -875,24 +878,60 @@ require('lazy').setup({
       { "<leader>rm", function() require('nabla').popup() end, mode = "n", desc = "nabla popup" }
     }
   },
+  {
+    'MeanderingProgrammer/render-markdown.nvim',
+    opts = {},
+    dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.nvim' }, -- if you use the mini.nvim suite
+    -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.icons' }, -- if you use standalone mini plugins
+    -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' }, -- if you prefer nvim-web-devicons
+  },
  {
-  "lervag/vimtex",
-  lazy = false,     -- we don't want to lazy load VimTeX
-  -- tag = "v2.15", -- uncomment to pin to a specific release
-  init = function()
-    -- VimTeX configuration goes here, e.g.
-    vim.g.vimtex_view_method = 'zathura'
-      vim.g.vimtex_compiler_method = 'latexrun'
-      vim.g.maplocalleader = ","
-      vim.cmd('filetype plugin indent on')
-      vim.cmd('syntax enable')  end
-},
+  "3rd/image.nvim",
+  opts = {
+    backend = "kitty",
+    integrations = {
+      markdown = {
+        enabled = true,
+        clear_in_insert_mode = false,
+        download_remote_images = true,
+        only_render_image_at_cursor = false,
+        filetypes = { "markdown", "vimwiki" },
+      },
+      neorg = {
+        enabled = true,
+        clear_in_insert_mode = false,
+        download_remote_images = true,
+        only_render_image_at_cursor = false,
+        filetypes = { "norg" },
+      },
+      html = {
+        enabled = false,
+      },
+      css = {
+        enabled = false,
+      },
+    },
+    max_width = 800,  -- Set a fixed maximum width in pixels
+    max_height = 600,  -- Set a fixed maximum height in pixels
+    max_width_window_percentage = nil,
+    max_height_window_percentage = nil,
+    window_overlap_clear_enabled = true,  -- Enable clearing of overlapped window content
+    window_overlap_clear_ft_ignore = { "cmp_menu", "cmp_docs", "" },
+    editor_only_render_when_focused = true,  -- Only render images when the editor is focused
+    tmux_show_only_in_active_window = true,  -- Only show images in the active tmux window
+    hijack_file_patterns = { "*.png", "*.jpg", "*.jpeg", "*.gif", "*.webp", "*.avif" },
+    render_method = "kitty",  -- Use kitty's native image rendering
+    max_fps = 30,  -- Limit the refresh rate to reduce glitchiness
+    use_dither = true,  -- Enable dithering for smoother image rendering
+    scale_small_images = false,  -- Prevent small images from being scaled up
+  }
+  }, 
   {
     'yacineMTB/dingllm.nvim',
     dependencies = { 'nvim-lua/plenary.nvim' },
     config = function()
       local system_prompt =
-        'You should replace the code that you are sent, only following the comments. Do not talk at all. Only output valid code. Do not provide any backticks that surround the code. Never ever output backticks like this ```. Any comment that is asking you for something should be removed after you satisfy them. Other comments should left alone. Do not output backticks'
+        'You should improve my text as i tell you, always write in lowercase, try to keep it short and concise in your rewrites or description. use simple terms and grammar. Do not provide any backticks that surround the code. Never ever output backticks like this ```. Any comment that is asking you for something should be removed after you satisfy them. Other comments should left alone. Do not output backticks'
       local helpful_prompt = 'You are a helpful assistant. What I have sent are my notes so far. You are very curt, yet helpful.'
       local dingllm = require 'dingllm'
 
